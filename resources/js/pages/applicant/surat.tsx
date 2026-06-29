@@ -328,7 +328,7 @@ export default function ApplicantSuratIndex({ pengantars, keterangans }: Props) 
                         )}
 
                         <div className="space-y-1">
-                            <Label htmlFor="file">Upload Berkas Pendukung (PDF/PNG/JPG) *</Label>
+                            <Label htmlFor="file">Upload Berkas Pendukung (PDF/PNG/JPG) (Opsional)</Label>
                             <Input
                                 id="file"
                                 type="file"
