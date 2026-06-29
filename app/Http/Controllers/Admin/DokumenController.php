@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Dokumen;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -52,7 +53,7 @@ class DokumenController extends Controller
             'judul' => $request->string('judul'),
             'kategori' => $request->string('kategori'),
             'file_path' => $path,
-            'uploaded_by' => auth()->id(),
+            'uploaded_by' => Auth::id(),
         ]);
 
         return redirect()->route('admin.dokumen.index')

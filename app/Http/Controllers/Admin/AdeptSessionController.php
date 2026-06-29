@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AdeptSession;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -37,7 +38,7 @@ class AdeptSessionController extends Controller
 
         $session = AdeptSession::create([
             ...$data,
-            'created_by' => auth()->id(),
+            'created_by' => Auth::id(),
             'status' => 'draft',
         ]);
 

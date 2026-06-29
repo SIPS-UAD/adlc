@@ -25,6 +25,7 @@ export default function UserForm({ record }: { record?: Record }) {
 
     function submit(e: React.FormEvent) {
         e.preventDefault();
+
         if (isEdit) {
             patch(`/admin/users/${record.id}`);
         } else {

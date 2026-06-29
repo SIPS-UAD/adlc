@@ -1,5 +1,5 @@
 import { Head } from '@inertiajs/react';
-import { Award, FileText } from 'lucide-react';
+import { Award } from 'lucide-react';
 
 interface Score {
     id: number;

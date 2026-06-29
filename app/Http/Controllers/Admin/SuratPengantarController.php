@@ -9,6 +9,7 @@ use App\Models\SuratPengantar;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -58,7 +59,7 @@ class SuratPengantarController extends Controller
 
         SuratPengantar::create([
             ...$data,
-            'created_by' => auth()->id(),
+            'created_by' => Auth::id(),
             'status' => 'pending',
         ]);
 

@@ -1,8 +1,7 @@
 import { Head } from '@inertiajs/react';
+import { Download } from 'lucide-react';
 import { useState } from 'react';
-import { Download, FileText, ExternalLink } from 'lucide-react';
 import { StatusBadge } from '@/components/status-badge';
-import { Button } from '@/components/ui/button';
 
 interface Pengantar {
     id: number;

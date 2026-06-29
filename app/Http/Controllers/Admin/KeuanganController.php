@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transaksi;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,11 +23,11 @@ class KeuanganController extends Controller
         }
 
         if ($request->filled('from')) {
-            $query->whereDate('tanggal', '>=', $request->string('from'));
+            $query->whereDate('tanggal', '>=', $request->input('from'));
         }
 
         if ($request->filled('to')) {
-            $query->whereDate('tanggal', '<=', $request->string('to'));
+            $query->whereDate('tanggal', '<=', $request->input('to'));
         }
 
         $records = $query->paginate(20)->withQueryString();
@@ -37,10 +38,10 @@ class KeuanganController extends Controller
             $summaryQuery->where('jenis', $request->string('jenis'));
         }
         if ($request->filled('from')) {
-            $summaryQuery->whereDate('tanggal', '>=', $request->string('from'));
+            $summaryQuery->whereDate('tanggal', '>=', $request->input('from'));
         }
         if ($request->filled('to')) {
-            $summaryQuery->whereDate('tanggal', '<=', $request->string('to'));
+            $summaryQuery->whereDate('tanggal', '<=', $request->input('to'));
         }
 
         $pemasukan = (clone $summaryQuery)->where('jenis', 'pemasukan')->sum('jumlah');
@@ -72,7 +73,7 @@ class KeuanganController extends Controller
             'tanggal' => ['required', 'date'],
         ]);
 
-        Transaksi::create([...$data, 'created_by' => auth()->id()]);
+        Transaksi::create([...$data, 'created_by' => Auth::id()]);
 
         return redirect()->route('admin.keuangan.index')
             ->with('success', 'Transaksi berhasil ditambahkan.');

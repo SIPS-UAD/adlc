@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
 
-// Admin routes
 Route::middleware(['auth', 'verified', 'role:admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -40,7 +39,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         Route::resource('users', Admin\UserController::class);
     });
 
-// Applicant routes
 Route::middleware(['auth', 'verified', 'role:applicant'])
     ->prefix('portal')
     ->name('portal.')
