@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('tanggal_pengajuan');
             $table->enum('status', ['pending', 'diproses', 'selesai', 'ditolak'])->default('pending')->index();
             $table->string('file_path', 500)->nullable();
+            $table->string('supporting_file_path', 500)->nullable();
             $table->timestamps();
         });
     }

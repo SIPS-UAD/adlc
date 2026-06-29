@@ -1,4 +1,4 @@
-import { Head, Link, useForm, router } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Upload, Download } from 'lucide-react';
 import { useRef } from 'react';
 import { StatusBadge } from '@/components/status-badge';
@@ -6,12 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { Separator } from '@/components/ui/separator';
+import { Textarea } from '@/components/ui/textarea';
 
 interface Record {
     id: number; user_id: number | null; nama_pemohon: string; student_id: string;
     keperluan: string; tanggal_pengajuan: string; status: string; file_path: string | null;
+    supporting_file_path: string | null;
 }
 interface Applicant { id: number; name: string; student_id: string | null }
 
@@ -71,7 +72,7 @@ export default function SuratPengantarEdit({ record, applicants }: { record: Rec
                     </div>
                     <div className="space-y-1">
                         <Label>Keperluan *</Label>
-                        <Textarea rows={4} value={data.keperluan} onChange={e => setData('keperluan', e.target.value)} />
+                        <Textarea rows={4} value={data.keperluan} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setData('keperluan', e.target.value)} />
                     </div>
                     <div className="space-y-1">
                         <Label>Tanggal Pengajuan *</Label>
@@ -90,6 +91,18 @@ export default function SuratPengantarEdit({ record, applicants }: { record: Rec
                     </div>
                     <Button type="submit" disabled={processing}>{processing ? 'Menyimpan...' : 'Simpan Perubahan'}</Button>
                 </form>
+
+                {record.supporting_file_path && (
+                    <div className="bg-muted/40 p-4 rounded-md border space-y-2">
+                        <p className="text-sm font-medium">Berkas Pendukung Pengajuan (dari Peserta):</p>
+                        <a
+                            href={`/admin/letters/supporting/pengantar/${record.id}/download`}
+                            className="inline-flex items-center gap-1.5 text-primary hover:underline text-sm font-semibold"
+                        >
+                            <Download className="h-4 w-4" /> Download Berkas Pendukung
+                        </a>
+                    </div>
+                )}
 
                 <Separator />
 

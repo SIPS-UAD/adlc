@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])
             'update' => 'adept.scores.update',
             'destroy' => 'adept.scores.destroy',
         ]);
+        Route::get('letters/supporting/{type}/{id}/download', [Admin\SuratPengantarController::class, 'downloadSupporting'])->name('letters.supporting.download');
         Route::resource('users', Admin\UserController::class);
     });
 
@@ -45,9 +46,12 @@ Route::middleware(['auth', 'verified', 'role:applicant'])
     ->group(function () {
         Route::get('dashboard', [Applicant\PortalController::class, 'dashboard'])->name('dashboard');
         Route::get('surat', [Applicant\PortalController::class, 'surat'])->name('surat');
+        Route::post('surat/pengantar', [Applicant\PortalController::class, 'storeSuratPengantar'])->name('surat.pengantar.store');
+        Route::post('surat/keterangan', [Applicant\PortalController::class, 'storeSuratKeterangan'])->name('surat.keterangan.store');
         Route::get('dokumen', [Applicant\PortalController::class, 'dokumen'])->name('dokumen');
         Route::get('nilai-adept', [Applicant\PortalController::class, 'nilaiAdept'])->name('nilai-adept');
         Route::get('letters/{type}/{id}/download', [Applicant\PortalController::class, 'download'])->name('letters.download');
+        Route::get('letters/supporting/{type}/{id}/download', [Applicant\PortalController::class, 'downloadSupporting'])->name('letters.supporting.download');
     });
 
 require __DIR__.'/settings.php';

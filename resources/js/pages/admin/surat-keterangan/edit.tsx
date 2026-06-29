@@ -1,6 +1,5 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft, Upload, Download } from 'lucide-react';
-import { useRef } from 'react';
 import { StatusBadge } from '@/components/status-badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,19 +10,26 @@ import { Separator } from '@/components/ui/separator';
 interface Record {
     id: number; user_id: number | null; nama_peserta: string; student_id: string;
     nama_kursus: string; tanggal_pengajuan: string; status: string; file_path: string | null;
+    supporting_file_path: string | null;
 }
 interface Applicant { id: number; name: string; student_id: string | null }
 
 export default function SuratKeteranganEdit({ record, applicants }: { record: Record; applicants: Applicant[] }) {
-    const { data, setData, patch, processing, errors } = useForm({
+    const { data, setData, patch, processing } = useForm({
         user_id: record.user_id ? String(record.user_id) : '',
         nama_peserta: record.nama_peserta, student_id: record.student_id,
         nama_kursus: record.nama_kursus, tanggal_pengajuan: record.tanggal_pengajuan, status: record.status,
     });
     const { data: uploadData, setData: setUploadData, post: postUpload, processing: uploading } = useForm({ file: null as File | null });
 
-    function submit(e: React.FormEvent) { e.preventDefault(); patch(`/admin/surat-keterangan/${record.id}`); }
-    function submitUpload(e: React.FormEvent) { e.preventDefault(); postUpload(`/admin/surat-keterangan/${record.id}/upload`, { forceFormData: true }); }
+    function submit(e: React.FormEvent) {
+        e.preventDefault();
+        patch(`/admin/surat-keterangan/${record.id}`);
+    }
+    function submitUpload(e: React.FormEvent) {
+        e.preventDefault();
+        postUpload(`/admin/surat-keterangan/${record.id}/upload`, { forceFormData: true });
+    }
 
     return (
         <>
@@ -67,6 +73,19 @@ export default function SuratKeteranganEdit({ record, applicants }: { record: Re
                     </div>
                     <Button type="submit" disabled={processing}>{processing ? 'Menyimpan...' : 'Simpan Perubahan'}</Button>
                 </form>
+
+                {record.supporting_file_path && (
+                    <div className="bg-muted/40 p-4 rounded-md border space-y-2">
+                        <p className="text-sm font-medium">Berkas Pendukung Pengajuan (dari Peserta):</p>
+                        <a
+                            href={`/admin/letters/supporting/keterangan/${record.id}/download`}
+                            className="inline-flex items-center gap-1.5 text-primary hover:underline text-sm font-semibold"
+                        >
+                            <Download className="h-4 w-4" /> Download Berkas Pendukung
+                        </a>
+                    </div>
+                )}
+
                 <Separator />
                 <div className="space-y-3">
                     <h2 className="font-medium">Upload Surat PDF</h2>

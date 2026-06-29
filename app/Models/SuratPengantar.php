@@ -22,7 +22,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['user_id', 'created_by', 'nama_pemohon', 'student_id', 'keperluan', 'tanggal_pengajuan', 'status', 'file_path'])]
+#[Fillable(['user_id', 'created_by', 'nama_pemohon', 'student_id', 'keperluan', 'tanggal_pengajuan', 'status', 'file_path', 'supporting_file_path'])]
 class SuratPengantar extends Model
 {
     /** @use HasFactory<SuratPengantarFactory> */

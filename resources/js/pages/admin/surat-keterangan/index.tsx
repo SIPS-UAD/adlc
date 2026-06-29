@@ -1,5 +1,5 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { PlusCircle, Search, Pencil, Trash2 } from 'lucide-react';
+import { PlusCircle, Search, Pencil, Trash2, Download, Paperclip } from 'lucide-react';
 import { useState } from 'react';
 import { StatusBadge } from '@/components/status-badge';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 interface Record {
     id: number; nama_peserta: string; student_id: string; nama_kursus: string;
     tanggal_pengajuan: string; status: string; file_path: string | null;
+    supporting_file_path: string | null;
 }
 interface Props {
     records: { data: Record[]; links: { url: string | null; label: string; active: boolean }[] };
@@ -28,7 +29,9 @@ export default function SuratKeteranganIndex({ records, filters }: Props) {
     }
 
     function confirmDelete(id: number) {
-        if (confirm('Hapus surat keterangan ini?')) router.delete(`/admin/surat-keterangan/${id}`);
+        if (confirm('Hapus surat keterangan ini?')) {
+            router.delete(`/admin/surat-keterangan/${id}`);
+        }
     }
 
     return (
@@ -61,11 +64,12 @@ export default function SuratKeteranganIndex({ records, filters }: Props) {
                                 <th className="px-4 py-3 text-left font-medium">Nama Kursus</th>
                                 <th className="px-4 py-3 text-left font-medium">Tanggal</th>
                                 <th className="px-4 py-3 text-left font-medium">Status</th>
+                                <th className="px-4 py-3 text-left font-medium">Berkas</th>
                                 <th className="px-4 py-3 text-left font-medium">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border">
-                            {records.data.length === 0 && <tr><td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">Tidak ada data.</td></tr>}
+                            {records.data.length === 0 && <tr><td colSpan={7} className="px-4 py-8 text-center text-muted-foreground">Tidak ada data.</td></tr>}
                             {records.data.map(r => (
                                 <tr key={r.id} className="hover:bg-muted/30">
                                     <td className="px-4 py-3 font-medium">{r.nama_peserta}</td>
@@ -73,6 +77,31 @@ export default function SuratKeteranganIndex({ records, filters }: Props) {
                                     <td className="px-4 py-3">{r.nama_kursus}</td>
                                     <td className="px-4 py-3">{r.tanggal_pengajuan}</td>
                                     <td className="px-4 py-3"><StatusBadge value={r.status} /></td>
+                                    <td className="px-4 py-3">
+                                        <div className="flex gap-2 items-center">
+                                            {r.supporting_file_path && (
+                                                <a
+                                                    href={`/admin/letters/supporting/keterangan/${r.id}/download`}
+                                                    className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+                                                    title="Unduh Berkas Pendukung"
+                                                >
+                                                    <Paperclip className="h-3.5 w-3.5" /> Pendukung
+                                                </a>
+                                            )}
+                                            {r.file_path && (
+                                                <a
+                                                    href={`/storage/${r.file_path}`}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-flex items-center gap-1 text-xs text-green-600 dark:text-green-400 hover:underline"
+                                                    title="Unduh Surat Selesai"
+                                                >
+                                                    <Download className="h-3.5 w-3.5" /> TTD
+                                                </a>
+                                            )}
+                                            {!r.supporting_file_path && !r.file_path && <span className="text-muted-foreground text-xs">-</span>}
+                                        </div>
+                                    </td>
                                     <td className="px-4 py-3">
                                         <div className="flex gap-2">
                                             <Link href={`/admin/surat-keterangan/${r.id}/edit`}><Button variant="ghost" size="icon"><Pencil className="h-4 w-4" /></Button></Link>

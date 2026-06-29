@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\SuratKeterangan;
 use App\Models\SuratPengantar;
 use App\Models\User;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class SuratPengantarController extends Controller
 {
@@ -131,5 +134,21 @@ class SuratPengantarController extends Controller
 
         return redirect()->route('admin.surat-pengantar.index')
             ->with('success', 'Surat pengantar berhasil dihapus.');
+    }
+
+    public function downloadSupporting(string $type, int $id): StreamedResponse
+    {
+        $record = match ($type) {
+            'pengantar' => SuratPengantar::findOrFail($id),
+            'keterangan' => SuratKeterangan::findOrFail($id),
+            default => abort(404),
+        };
+
+        abort_unless($record->supporting_file_path && Storage::disk('public')->exists($record->supporting_file_path), 404);
+
+        /** @var FilesystemAdapter $disk */
+        $disk = Storage::disk('public');
+
+        return $disk->download($record->supporting_file_path);
     }
 }
