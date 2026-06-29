@@ -105,7 +105,7 @@ class SuratPengantarController extends Controller
     public function upload(Request $request, SuratPengantar $suratPengantar): RedirectResponse
     {
         $request->validate([
-            'file' => ['required', 'file', 'mimes:pdf', 'max:10240'],
+            'file' => ['required', 'file', 'mimes:pdf', 'max:' . config('filesystems.max_file_size')],
         ]);
 
         // Delete old file if exists

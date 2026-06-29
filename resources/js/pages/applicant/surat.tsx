@@ -47,7 +47,7 @@ export default function ApplicantSuratIndex({ pengantars, keterangans }: Props) 
     const [isOpen, setIsOpen] = useState(false);
     const [tipeSurat, setTipeSurat] = useState<'pengantar' | 'keterangan'>('pengantar');
 
-    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
+    const { data, setData, post, processing, errors, reset, clearErrors, setError } = useForm({
         nama_pemohon: auth.user.name,
         nama_peserta: auth.user.name,
         student_id: auth.user.student_id ?? '',
@@ -333,8 +333,20 @@ export default function ApplicantSuratIndex({ pengantars, keterangans }: Props) 
                                 id="file"
                                 type="file"
                                 accept=".pdf,image/*"
-                                onChange={e => setData('file', e.target.files?.[0] ?? null)}
+                                onChange={e => {
+                                    const file = e.target.files?.[0] ?? null;
+
+                                    if (file && file.size > 10 * 1024 * 1024) {
+                                        setError('file', 'Ukuran file tidak boleh melebihi 10MB');
+                                        setData('file', null);
+                                        e.target.value = '';
+                                    } else {
+                                        clearErrors('file');
+                                        setData('file', file);
+                                    }
+                                }}
                             />
+                            <p className="text-[11px] text-muted-foreground">Maksimal ukuran file: 10MB</p>
                             {errors.file && <p className="text-destructive text-xs">{errors.file}</p>}
                         </div>
 

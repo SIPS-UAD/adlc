@@ -102,7 +102,7 @@ class SuratKeteranganController extends Controller
     public function upload(Request $request, SuratKeterangan $suratKeterangan): RedirectResponse
     {
         $request->validate([
-            'file' => ['required', 'file', 'mimes:pdf', 'max:10240'],
+            'file' => ['required', 'file', 'mimes:pdf', 'max:' . config('filesystems.max_file_size')],
         ]);
 
         if ($suratKeterangan->file_path) {

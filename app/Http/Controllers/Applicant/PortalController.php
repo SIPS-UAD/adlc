@@ -127,7 +127,7 @@ class PortalController extends Controller
             'nama_pemohon' => ['required', 'string', 'max:255'],
             'student_id' => ['required', 'string', 'max:50'],
             'keperluan' => ['required', 'string'],
-            'file' => ['nullable', 'file', 'mimes:pdf,jpg,png,jpeg', 'max:10240'],
+            'file' => ['nullable', 'file', 'mimes:pdf,jpg,png,jpeg', 'max:' . config('filesystems.max_file_size')],
         ]);
 
         $path = null;
@@ -160,7 +160,7 @@ class PortalController extends Controller
             'nama_peserta' => ['required', 'string', 'max:255'],
             'student_id' => ['required', 'string', 'max:50'],
             'nama_kursus' => ['required', 'string', 'max:255'],
-            'file' => ['nullable', 'file', 'mimes:pdf,jpg,png,jpeg', 'max:10240'],
+            'file' => ['nullable', 'file', 'mimes:pdf,jpg,png,jpeg', 'max:' . config('filesystems.max_file_size')],
         ]);
 
         $path = null;

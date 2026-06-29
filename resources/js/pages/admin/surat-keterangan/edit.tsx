@@ -20,7 +20,7 @@ export default function SuratKeteranganEdit({ record, applicants }: { record: Re
         nama_peserta: record.nama_peserta, student_id: record.student_id,
         nama_kursus: record.nama_kursus, tanggal_pengajuan: record.tanggal_pengajuan, status: record.status,
     });
-    const { data: uploadData, setData: setUploadData, post: postUpload, processing: uploading } = useForm({ file: null as File | null });
+    const { data: uploadData, setData: setUploadData, post: postUpload, processing: uploading, errors: uploadErrors, setError: setUploadError, clearErrors: clearUploadErrors } = useForm({ file: null as File | null });
 
     function submit(e: React.FormEvent) {
         e.preventDefault();
@@ -93,8 +93,27 @@ export default function SuratKeteranganEdit({ record, applicants }: { record: Re
                 <div className="space-y-3">
                     <h2 className="font-medium">Upload Surat PDF</h2>
                     {record.file_path && <p className="text-sm text-green-700 dark:text-green-400 flex items-center gap-2"><Download className="h-4 w-4" /> File tersedia</p>}
-                    <form onSubmit={submitUpload} className="flex gap-2 items-center">
-                        <Input type="file" accept=".pdf" onChange={e => setUploadData('file', e.target.files?.[0] ?? null)} />
+                    <form onSubmit={submitUpload} className="flex gap-4 items-start">
+                        <div className="flex flex-col gap-1 w-full max-w-md">
+                            <Input
+                                type="file"
+                                accept=".pdf"
+                                onChange={e => {
+                                    const file = e.target.files?.[0] ?? null;
+
+                                    if (file && file.size > 10 * 1024 * 1024) {
+                                        setUploadError('file', 'Ukuran file tidak boleh melebihi 10MB');
+                                        setUploadData('file', null);
+                                        e.target.value = '';
+                                    } else {
+                                        clearUploadErrors('file');
+                                        setUploadData('file', file);
+                                    }
+                                }}
+                            />
+                            <span className="text-[11px] text-muted-foreground">Maksimal ukuran file: 10MB (PDF saja)</span>
+                            {uploadErrors.file && <span className="text-destructive text-xs">{uploadErrors.file}</span>}
+                        </div>
                         <Button type="submit" disabled={uploading || !uploadData.file} variant="secondary">
                             <Upload className="mr-2 h-4 w-4" /> Upload
                         </Button>

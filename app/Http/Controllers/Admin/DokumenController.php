@@ -40,7 +40,7 @@ class DokumenController extends Controller
         $request->validate([
             'judul' => ['required', 'string', 'max:255'],
             'kategori' => ['required', 'in:sop,aturan,sk,lainnya'],
-            'file' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:20480'],
+            'file' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:' . config('filesystems.max_file_size')],
         ]);
 
         $path = $request->file('file')->storeAs(
@@ -70,7 +70,7 @@ class DokumenController extends Controller
         $request->validate([
             'judul' => ['required', 'string', 'max:255'],
             'kategori' => ['required', 'in:sop,aturan,sk,lainnya'],
-            'file' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:20480'],
+            'file' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:' . config('filesystems.max_file_size')],
         ]);
 
         $data = [

@@ -1,16 +1,16 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
+import { StatusBadge } from '@/components/status-badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { StatusBadge } from '@/components/status-badge';
 
 interface Record { id: number; judul: string; kategori: string }
 
 export default function DokumenForm({ record }: { record?: Record }) {
     const isEdit = !!record;
-    const { data, setData, post, patch, processing, errors } = useForm({
+    const { data, setData, post, patch, processing, errors, setError, clearErrors } = useForm({
         judul: record?.judul ?? '',
         kategori: record?.kategori ?? '',
         file: null as File | null,
@@ -18,6 +18,7 @@ export default function DokumenForm({ record }: { record?: Record }) {
 
     function submit(e: React.FormEvent) {
         e.preventDefault();
+
         if (isEdit) {
             patch(`/admin/dokumen/${record!.id}`, { forceFormData: true } as any);
         } else {
@@ -49,9 +50,25 @@ export default function DokumenForm({ record }: { record?: Record }) {
                         </Select>
                         {errors.kategori && <p className="text-destructive text-xs">{errors.kategori}</p>}
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-1 flex flex-col gap-1">
                         <Label>{isEdit ? 'Ganti File (opsional)' : 'File *'}</Label>
-                        <Input type="file" accept=".pdf,.doc,.docx" onChange={e => setData('file', e.target.files?.[0] ?? null)} />
+                        <Input
+                            type="file"
+                            accept=".pdf,.doc,.docx"
+                            onChange={e => {
+                                const file = e.target.files?.[0] ?? null;
+
+                                if (file && file.size > 10 * 1024 * 1024) {
+                                    setError('file', 'Ukuran file tidak boleh melebihi 10MB');
+                                    setData('file', null);
+                                    e.target.value = '';
+                                } else {
+                                    clearErrors('file');
+                                    setData('file', file);
+                                }
+                            }}
+                        />
+                        <span className="text-[11px] text-muted-foreground">Maksimal ukuran file: 10MB (PDF, DOC, DOCX saja)</span>
                         {errors.file && <p className="text-destructive text-xs">{errors.file}</p>}
                     </div>
                     <Button type="submit" disabled={processing}>{processing ? 'Menyimpan...' : isEdit ? 'Simpan Perubahan' : 'Upload'}</Button>
