@@ -15,6 +15,8 @@ return [
 
     'default' => env('FILESYSTEM_DISK', 'local'),
 
+    'max_file_size' => env('MAX_FILE_SIZE', 10240),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
