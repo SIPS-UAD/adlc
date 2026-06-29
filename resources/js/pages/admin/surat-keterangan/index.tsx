@@ -1,9 +1,10 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { PlusCircle, Search, Pencil, Trash2, Download, Paperclip } from 'lucide-react';
+import { PlusCircle, Search, Trash2, Download, Paperclip, RotateCcw, CheckSquare, Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { StatusBadge } from '@/components/status-badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface Record {
@@ -18,14 +19,20 @@ interface Props {
 
 export default function SuratKeteranganIndex({ records, filters }: Props) {
     const [search, setSearch] = useState(filters.search ?? '');
+    const [status, setStatus] = useState(filters.status ?? 'all');
 
     function applySearch(e: React.FormEvent) {
         e.preventDefault();
-        router.get('/admin/surat-keterangan', { search, status: filters.status }, { preserveState: true });
+        router.get('/admin/surat-keterangan', {
+            search: search || undefined,
+            status: status === 'all' ? undefined : status,
+        }, { preserveState: true });
     }
 
-    function setStatus(value: string) {
-        router.get('/admin/surat-keterangan', { search, status: value === 'all' ? undefined : value }, { preserveState: true });
+    function handleReset() {
+        setSearch('');
+        setStatus('all');
+        router.get('/admin/surat-keterangan', {}, { preserveState: true });
     }
 
     function confirmDelete(id: number) {
@@ -37,24 +44,52 @@ export default function SuratKeteranganIndex({ records, filters }: Props) {
     return (
         <>
             <Head title="Surat Keterangan" />
-            <div className="p-6 space-y-4">
+            <div className="p-6 space-y-6">
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-semibold">Surat Keterangan Kursus / Pelatihan</h1>
                     <Link href="/admin/surat-keterangan/create"><Button><PlusCircle className="mr-2 h-4 w-4" /> Tambah</Button></Link>
                 </div>
-                <div className="flex gap-3 flex-wrap">
-                    <form onSubmit={applySearch} className="flex gap-2">
-                        <Input placeholder="Cari nama / NIM..." value={search} onChange={e => setSearch(e.target.value)} className="w-64" />
-                        <Button type="submit" variant="outline" size="icon"><Search className="h-4 w-4" /></Button>
+
+                <div className="bg-card border rounded-lg p-5 space-y-4 shadow-xs">
+                    <form onSubmit={applySearch} className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <Label htmlFor="search">Kata Kunci / Pencarian</Label>
+                                <Input
+                                    id="search"
+                                    placeholder="Cari nama, NIM, atau kursus..."
+                                    value={search}
+                                    onChange={e => setSearch(e.target.value)}
+                                    className="w-full"
+                                />
+                            </div>
+                            <div className="space-y-1.5">
+                                <Label htmlFor="status">Status Pengajuan</Label>
+                                <Select value={status} onValueChange={setStatus}>
+                                    <SelectTrigger id="status" className="w-full">
+                                        <SelectValue placeholder="Semua Status" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">Semua</SelectItem>
+                                        <SelectItem value="pending">Pending</SelectItem>
+                                        <SelectItem value="diproses">Diproses</SelectItem>
+                                        <SelectItem value="selesai">Selesai</SelectItem>
+                                        <SelectItem value="ditolak">Ditolak</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+                        <div className="flex gap-2">
+                            <Button type="submit" size="sm" className="gap-1.5 font-semibold">
+                                <Search className="h-4 w-4" /> Cari
+                            </Button>
+                            <Button type="button" variant="outline" size="sm" onClick={handleReset} className="gap-1.5 text-muted-foreground hover:text-foreground font-semibold">
+                                <RotateCcw className="h-4 w-4" /> Reset
+                            </Button>
+                        </div>
                     </form>
-                    <Select value={filters.status ?? 'all'} onValueChange={setStatus}>
-                        <SelectTrigger className="w-40"><SelectValue placeholder="Semua Status" /></SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">Semua</SelectItem>
-                            {['pending','diproses','selesai','ditolak'].map(s => <SelectItem key={s} value={s}><StatusBadge value={s} /></SelectItem>)}
-                        </SelectContent>
-                    </Select>
                 </div>
+
                 <div className="rounded-md border overflow-x-auto">
                     <table className="min-w-full divide-y divide-border text-sm">
                         <thead className="bg-muted/50">
@@ -96,16 +131,37 @@ export default function SuratKeteranganIndex({ records, filters }: Props) {
                                                     className="inline-flex items-center gap-1 text-xs text-green-600 dark:text-green-400 hover:underline"
                                                     title="Unduh Surat Selesai"
                                                 >
-                                                    <Download className="h-3.5 w-3.5" /> TTD
+                                                    <Download className="h-3.5 w-3.5" /> File
                                                 </a>
                                             )}
                                             {!r.supporting_file_path && !r.file_path && <span className="text-muted-foreground text-xs">-</span>}
                                         </div>
                                     </td>
-                                    <td className="px-4 py-3">
-                                        <div className="flex gap-2">
-                                            <Link href={`/admin/surat-keterangan/${r.id}/edit`}><Button variant="ghost" size="icon"><Pencil className="h-4 w-4" /></Button></Link>
-                                            <Button variant="ghost" size="icon" onClick={() => confirmDelete(r.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                                     <td className="px-4 py-3">
+                                        <div className="flex items-center gap-1">
+                                            <Link href={`/admin/surat-keterangan/${r.id}/edit`}>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-8 w-8 text-primary hover:bg-primary/10"
+                                                    title={r.status === 'pending' || r.status === 'diproses' ? 'Proses Pengajuan' : 'Detail Pengajuan'}
+                                                >
+                                                    <CheckSquare className="h-4 w-4" />
+                                                </Button>
+                                            </Link>
+                                            <Link href={`/admin/surat-keterangan/${r.id}/edit`}>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-8 w-8 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/20"
+                                                    title="Edit Data"
+                                                >
+                                                    <Pencil className="h-4 w-4" />
+                                                </Button>
+                                            </Link>
+                                            <Button variant="ghost" size="icon" onClick={() => confirmDelete(r.id)} className="h-8 w-8 text-destructive hover:bg-destructive/10" title="Hapus">
+                                                <Trash2 className="h-4 w-4" />
+                                            </Button>
                                         </div>
                                     </td>
                                 </tr>

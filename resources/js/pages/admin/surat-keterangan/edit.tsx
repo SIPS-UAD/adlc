@@ -31,13 +31,16 @@ export default function SuratKeteranganEdit({ record, applicants }: { record: Re
         postUpload(`/admin/surat-keterangan/${record.id}/upload`, { forceFormData: true });
     }
 
+    const isPendingOrProcessing = record.status === 'pending' || record.status === 'diproses';
+    const pageTitle = isPendingOrProcessing ? 'Proses Pengajuan Surat Keterangan' : 'Detail Pengajuan Surat Keterangan';
+
     return (
         <>
-            <Head title="Edit Surat Keterangan" />
+            <Head title={pageTitle} />
             <div className="p-6 max-w-2xl space-y-6">
                 <div className="flex items-center gap-3">
                     <Link href="/admin/surat-keterangan"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-                    <h1 className="text-2xl font-semibold">Edit Surat Keterangan</h1>
+                    <h1 className="text-2xl font-semibold">{pageTitle}</h1>
                     <StatusBadge value={record.status} />
                 </div>
                 <form onSubmit={submit} className="space-y-4">

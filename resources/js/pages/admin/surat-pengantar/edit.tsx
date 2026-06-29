@@ -39,13 +39,16 @@ export default function SuratPengantarEdit({ record, applicants }: { record: Rec
         postUpload(`/admin/surat-pengantar/${record.id}/upload`, { forceFormData: true });
     }
 
+    const isPendingOrProcessing = record.status === 'pending' || record.status === 'diproses';
+    const pageTitle = isPendingOrProcessing ? 'Proses Pengajuan Surat Pengantar' : 'Detail Pengajuan Surat Pengantar';
+
     return (
         <>
-            <Head title="Edit Surat Pengantar" />
+            <Head title={pageTitle} />
             <div className="p-6 max-w-2xl space-y-6">
                 <div className="flex items-center gap-3">
                     <Link href="/admin/surat-pengantar"><Button variant="ghost" size="icon"><ArrowLeft className="h-4 w-4" /></Button></Link>
-                    <h1 className="text-2xl font-semibold">Edit Surat Pengantar</h1>
+                    <h1 className="text-2xl font-semibold">{pageTitle}</h1>
                     <StatusBadge value={record.status} />
                 </div>
 
