@@ -57,4 +57,20 @@ class UserFactory extends Factory
             'two_factor_confirmed_at' => now(),
         ]);
     }
+
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'admin',
+            'student_id' => null,
+        ]);
+    }
+
+    public function applicant(?string $studentId = null): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'applicant',
+            'student_id' => $studentId ?? strtoupper(fake()->bothify('2#########')),
+        ]);
+    }
 }

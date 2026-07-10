@@ -1,7 +1,14 @@
-import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import {
+    BookOpen,
+    DollarSign,
+    FileText,
+    FolderOpen,
+    LayoutGrid,
+    Users,
+    Award,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -13,38 +20,39 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import type { Auth } from '@/types';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
+const adminNavItems: NavItem[] = [
+    { title: 'Dashboard', href: '/admin/dashboard', icon: LayoutGrid },
+    { title: 'Surat Pengantar', href: '/admin/surat-pengantar', icon: FileText },
+    { title: 'Surat Keterangan', href: '/admin/surat-keterangan', icon: BookOpen },
+    { title: 'Dokumen', href: '/admin/dokumen', icon: FolderOpen },
+    { title: 'Keuangan', href: '/admin/keuangan', icon: DollarSign },
+    { title: 'Skor ADEPT', href: '/admin/adept/sessions', icon: Award },
+    { title: 'Manajemen User', href: '/admin/users', icon: Users },
 ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
+const applicantNavItems: NavItem[] = [
+    { title: 'Dashboard', href: '/portal/dashboard', icon: LayoutGrid },
+    { title: 'Surat Saya', href: '/portal/surat', icon: FileText },
+    { title: 'Dokumen', href: '/portal/dokumen', icon: FolderOpen },
+    { title: 'Nilai ADEPT', href: '/portal/nilai-adept', icon: Award },
 ];
 
 export function AppSidebar() {
+    const { auth } = usePage<{ auth: Auth }>().props;
+    const isAdmin = auth.user?.role === 'admin';
+    const homeHref = isAdmin ? '/admin/dashboard' : '/portal/dashboard';
+    const navItems = isAdmin ? adminNavItems : applicantNavItems;
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={homeHref} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -53,11 +61,10 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={navItems} />
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
