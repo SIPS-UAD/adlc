@@ -4,6 +4,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Features;
 
+test('root url redirects to login', function () {
+    $response = $this->get('/');
+
+    $response->assertRedirect(route('login', absolute: false));
+});
+
 test('login screen can be rendered', function () {
     $response = $this->get(route('login'));
 

@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\Applicant;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'welcome')->name('home');
+Route::redirect('/', '/login')->name('home');
 
 Route::middleware(['auth', 'verified', 'role:admin'])
     ->prefix('admin')
