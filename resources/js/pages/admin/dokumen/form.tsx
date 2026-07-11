@@ -6,13 +6,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-interface Record { id: number; judul: string; kategori: string }
+interface Record { id: number; judul: string; kategori: string; visibility?: string }
 
 export default function DokumenForm({ record }: { record?: Record }) {
     const isEdit = !!record;
     const { data, setData, post, patch, processing, errors, setError, clearErrors } = useForm({
         judul: record?.judul ?? '',
         kategori: record?.kategori ?? '',
+        visibility: record?.visibility ?? 'public',
         file: null as File | null,
     });
 
@@ -49,6 +50,37 @@ export default function DokumenForm({ record }: { record?: Record }) {
                             </SelectContent>
                         </Select>
                         {errors.kategori && <p className="text-destructive text-xs">{errors.kategori}</p>}
+                    </div>
+                    <div className="space-y-1">
+                        <Label>Visibilitas *</Label>
+                        <div className="flex flex-wrap items-center gap-4">
+                            <label className="inline-flex items-center gap-2 text-sm">
+                                <input
+                                    type="radio"
+                                    name="visibility"
+                                    value="public"
+                                    checked={data.visibility === 'public'}
+                                    onChange={() => setData('visibility', 'public')}
+                                    className="h-4 w-4 accent-primary"
+                                />
+                                <span>Publik</span>
+                            </label>
+                            <label className="inline-flex items-center gap-2 text-sm">
+                                <input
+                                    type="radio"
+                                    name="visibility"
+                                    value="private"
+                                    checked={data.visibility === 'private'}
+                                    onChange={() => setData('visibility', 'private')}
+                                    className="h-4 w-4 accent-primary"
+                                />
+                                <span>Privat</span>
+                            </label>
+                        </div>
+                        <p className="text-[11px] text-muted-foreground">
+                            Publik: dapat dilihat dan diunduh oleh admin dan applicant. Privat: hanya admin yang dapat melihat.
+                        </p>
+                        {errors.visibility && <p className="text-destructive text-xs">{errors.visibility}</p>}
                     </div>
                     <div className="space-y-1 flex flex-col gap-1">
                         <Label>{isEdit ? 'Ganti File (opsional)' : 'File *'}</Label>

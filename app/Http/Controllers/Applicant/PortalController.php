@@ -72,7 +72,7 @@ class PortalController extends Controller
 
     public function dokumen(Request $request): Response
     {
-        $query = Dokumen::latest();
+        $query = Dokumen::where('visibility', Dokumen::VISIBILITY_PUBLIC)->latest();
 
         if ($request->filled('kategori')) {
             $query->where('kategori', $request->string('kategori'));
