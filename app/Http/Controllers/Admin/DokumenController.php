@@ -40,6 +40,7 @@ class DokumenController extends Controller
         $request->validate([
             'judul' => ['required', 'string', 'max:255'],
             'kategori' => ['required', 'in:sop,aturan,sk,lainnya'],
+            'visibility' => ['required', 'in:public,private'],
             'file' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:' . config('filesystems.max_file_size')],
         ]);
 
@@ -52,6 +53,7 @@ class DokumenController extends Controller
         Dokumen::create([
             'judul' => $request->string('judul'),
             'kategori' => $request->string('kategori'),
+            'visibility' => $request->string('visibility'),
             'file_path' => $path,
             'uploaded_by' => Auth::id(),
         ]);
@@ -70,12 +72,14 @@ class DokumenController extends Controller
         $request->validate([
             'judul' => ['required', 'string', 'max:255'],
             'kategori' => ['required', 'in:sop,aturan,sk,lainnya'],
+            'visibility' => ['required', 'in:public,private'],
             'file' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:' . config('filesystems.max_file_size')],
         ]);
 
         $data = [
             'judul' => $request->string('judul'),
             'kategori' => $request->string('kategori'),
+            'visibility' => $request->string('visibility'),
         ];
 
         if ($request->hasFile('file')) {
