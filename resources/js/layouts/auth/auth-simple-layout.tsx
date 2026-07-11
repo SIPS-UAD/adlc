@@ -1,5 +1,4 @@
 import { Link } from '@inertiajs/react';
-import AppLogoIcon from '@/components/app-logo-icon';
 import {
     Card,
     CardContent,
@@ -22,19 +21,13 @@ export default function AuthSimpleLayout({
                 <div className="flex flex-col gap-6">
                     <Link
                         href={home()}
-                        className="mx-auto flex items-center gap-3 font-medium text-foreground"
+                        className="mx-auto flex items-center justify-center rounded-3xl border border-primary/20 bg-primary p-4 shadow-sm backdrop-blur dark:border-primary/30"
                     >
-                        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-blue-100 bg-white/85 shadow-sm backdrop-blur dark:border-blue-950 dark:bg-slate-950/70">
-                            <AppLogoIcon className="size-6 fill-current text-[var(--foreground)] dark:text-white" />
-                        </div>
-                        <div className="grid text-left text-sm leading-tight">
-                            <span className="font-semibold tracking-tight">
-                                ADLC
-                            </span>
-                            <span className="text-xs text-muted-foreground">
-                                Portal layanan
-                            </span>
-                        </div>
+                        <img
+                            src="/images/logo-adlc-uad.svg"
+                            alt="ADLC UAD"
+                            className="h-10 w-auto max-w-[180px] object-contain"
+                        />
                     </Link>
 
                     <Card className="rounded-3xl border-border/60 bg-card/95 shadow-[0_24px_80px_-36px_rgba(0,0,0,0.35)] backdrop-blur">
