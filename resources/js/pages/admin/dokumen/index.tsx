@@ -4,7 +4,7 @@ import { StatusBadge } from '@/components/status-badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-interface Record { id: number; judul: string; kategori: string; file_path: string; created_at: string }
+interface Record { id: number; judul: string; kategori: string; visibility: string; file_path: string; created_at: string }
 interface Props {
     records: { data: Record[]; links: { url: string | null; label: string; active: boolean }[] };
     filters: { kategori?: string };
@@ -39,16 +39,18 @@ export default function DokumenIndex({ records, filters }: Props) {
                             <tr>
                                 <th className="px-4 py-3 text-left font-medium">Judul</th>
                                 <th className="px-4 py-3 text-left font-medium">Kategori</th>
+                                <th className="px-4 py-3 text-left font-medium">Visibilitas</th>
                                 <th className="px-4 py-3 text-left font-medium">Tanggal Upload</th>
                                 <th className="px-4 py-3 text-left font-medium">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border">
-                            {records.data.length === 0 && <tr><td colSpan={4} className="px-4 py-8 text-center text-muted-foreground">Tidak ada dokumen.</td></tr>}
+                            {records.data.length === 0 && <tr><td colSpan={5} className="px-4 py-8 text-center text-muted-foreground">Tidak ada dokumen.</td></tr>}
                             {records.data.map(r => (
                                 <tr key={r.id} className="hover:bg-muted/30">
                                     <td className="px-4 py-3 font-medium">{r.judul}</td>
                                     <td className="px-4 py-3"><StatusBadge value={r.kategori} /></td>
+                                    <td className="px-4 py-3"><StatusBadge value={r.visibility} /></td>
                                     <td className="px-4 py-3 text-muted-foreground">{r.created_at.slice(0,10)}</td>
                                     <td className="px-4 py-3">
                                         <div className="flex gap-2">
