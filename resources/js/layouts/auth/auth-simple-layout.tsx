@@ -21,12 +21,12 @@ export default function AuthSimpleLayout({
                 <div className="flex flex-col gap-4">
                     <Link
                         href={home()}
-                        className="flex w-full items-center justify-center rounded-3xl border border-primary/20 bg-primary py-4 px-6 shadow-sm backdrop-blur dark:border-primary/30"
+                        className="flex w-full items-center justify-center rounded-3xl border border-primary/20 bg-primary p-2 shadow-sm backdrop-blur dark:border-primary/30"
                     >
                         <img
                             src="/images/logo-adlc-uad.svg"
                             alt="ADLC UAD"
-                            className="h-12 w-auto object-contain"
+                            className="h-16 w-auto object-contain"
                         />
                     </Link>
 
