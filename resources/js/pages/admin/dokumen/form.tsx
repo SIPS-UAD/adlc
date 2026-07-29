@@ -11,7 +11,7 @@ interface Record { id: number; judul: string; kategori: string; visibility?: str
 
 export default function DokumenForm({ record }: { record?: Record }) {
     const isEdit = !!record;
-    const { data, setData, post, patch, processing, errors, setError, clearErrors } = useForm({
+    const { data, setData, post, transform, processing, errors, setError, clearErrors } = useForm({
         judul: record?.judul ?? '',
         kategori: record?.kategori ?? '',
         visibility: record?.visibility ?? 'public',
@@ -25,14 +25,14 @@ export default function DokumenForm({ record }: { record?: Record }) {
             visibility: record?.visibility ?? 'public',
             file: null,
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [record?.id]);
+    }, [record?.id, record?.judul, record?.kategori, record?.visibility, setData]);
 
     function submit(e: React.FormEvent) {
         e.preventDefault();
 
         if (isEdit) {
-            patch(`/admin/dokumen/${record!.id}`, { forceFormData: true } as any);
+            transform(d => ({ ...d, _method: 'PATCH' }));
+            post(`/admin/dokumen/${record!.id}`, { forceFormData: true });
         } else {
             post('/admin/dokumen', { forceFormData: true });
         }
