@@ -1,45 +1,54 @@
 import { cn } from '@/lib/utils';
 
 const colorMap: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
-    diproses: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-    selesai: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-    ditolak: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-    draft: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
-    dipublikasikan: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-    pemasukan: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-    pengeluaran: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-    sop: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
-    aturan: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-    sk: 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400',
-    lainnya: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
-    public: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400',
-    private: 'bg-slate-100 text-slate-800 dark:bg-slate-900/30 dark:text-slate-400',
+    // Status pengajuan
+    pending:        'bg-yellow-500 text-white',
+    diproses:       'bg-blue-500 text-white',
+    selesai:        'bg-green-500 text-white',
+    ditolak:        'bg-red-500 text-white',
+    draft:          'bg-gray-400 text-white',
+    dipublikasikan: 'bg-green-500 text-white',
+    // Keuangan
+    pemasukan:      'bg-green-500 text-white',
+    pengeluaran:    'bg-red-500 text-white',
+    // Dokumen kategori
+    sop:            'bg-purple-500 text-white',
+    aturan:         'bg-blue-500 text-white',
+    sk:             'bg-orange-500 text-white',
+    lainnya:        'bg-gray-400 text-white',
+    // Visibilitas
+    public:         'bg-green-500 text-white',
+    private:        'bg-gray-400 text-white',
+    // Role pengguna
+    admin:          'bg-blue-600 text-white',
+    applicant:      'bg-blue-400 text-white',
 };
 
 const labelMap: Record<string, string> = {
-    pending: 'Pending',
-    diproses: 'Diproses',
-    selesai: 'Selesai',
-    ditolak: 'Ditolak',
-    draft: 'Draft',
+    pending:        'Pending',
+    diproses:       'Diproses',
+    selesai:        'Selesai',
+    ditolak:        'Ditolak',
+    draft:          'Draft',
     dipublikasikan: 'Dipublikasikan',
-    pemasukan: 'Pemasukan',
-    pengeluaran: 'Pengeluaran',
-    sop: 'SOP',
-    aturan: 'Aturan',
-    sk: 'SK',
-    lainnya: 'Lainnya',
-    public: 'Publik',
-    private: 'Privat',
+    pemasukan:      'Pemasukan',
+    pengeluaran:    'Pengeluaran',
+    sop:            'SOP',
+    aturan:         'Aturan',
+    sk:             'SK',
+    lainnya:        'Lainnya',
+    public:         'Publik',
+    private:        'Privat',
+    admin:          'Admin',
+    applicant:      'Applicant',
 };
 
 export function StatusBadge({ value }: { value: string }) {
     return (
         <span
             className={cn(
-                'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize',
-                colorMap[value] ?? 'bg-gray-100 text-gray-700',
+                'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
+                colorMap[value] ?? 'bg-zinc-400 text-white',
             )}
         >
             {labelMap[value] ?? value}
