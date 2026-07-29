@@ -54,4 +54,4 @@ Route::middleware(['auth', 'verified', 'role:applicant'])
         Route::get('letters/supporting/{type}/{id}/download', [Applicant\PortalController::class, 'downloadSupporting'])->name('letters.supporting.download');
     });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';
