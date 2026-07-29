@@ -1,5 +1,6 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
+import { useEffect } from 'react';
 import { StatusBadge } from '@/components/status-badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,6 +17,16 @@ export default function DokumenForm({ record }: { record?: Record }) {
         visibility: record?.visibility ?? 'public',
         file: null as File | null,
     });
+
+    useEffect(() => {
+        setData({
+            judul: record?.judul ?? '',
+            kategori: record?.kategori ?? '',
+            visibility: record?.visibility ?? 'public',
+            file: null,
+        });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [record?.id]);
 
     function submit(e: React.FormEvent) {
         e.preventDefault();
@@ -77,7 +88,7 @@ export default function DokumenForm({ record }: { record?: Record }) {
                                 <span>Privat</span>
                             </label>
                         </div>
-                        <p className="text-[11px] text-muted-foreground">
+                        <p className="text-[10px] text-muted-foreground">
                             Publik: dapat dilihat dan diunduh oleh admin dan applicant. Privat: hanya admin yang dapat melihat.
                         </p>
                         {errors.visibility && <p className="text-destructive text-xs">{errors.visibility}</p>}

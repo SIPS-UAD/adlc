@@ -41,7 +41,7 @@ class DokumenController extends Controller
             'judul' => ['required', 'string', 'max:255'],
             'kategori' => ['required', 'in:sop,aturan,sk,lainnya'],
             'visibility' => ['required', 'in:public,private'],
-            'file' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:' . config('filesystems.max_file_size')],
+            'file' => ['required', 'file', 'mimes:pdf,doc,docx', 'max:'.config('filesystems.max_file_size')],
         ]);
 
         $path = $request->file('file')->storeAs(
@@ -73,7 +73,7 @@ class DokumenController extends Controller
             'judul' => ['required', 'string', 'max:255'],
             'kategori' => ['required', 'in:sop,aturan,sk,lainnya'],
             'visibility' => ['required', 'in:public,private'],
-            'file' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:' . config('filesystems.max_file_size')],
+            'file' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:'.config('filesystems.max_file_size')],
         ]);
 
         $data = [
