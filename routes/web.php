@@ -15,7 +15,7 @@ Route::middleware(['auth', 'verified', 'role:admin'])
         Route::post('surat-pengantar/{suratPengantar}/upload', [Admin\SuratPengantarController::class, 'upload'])->name('surat-pengantar.upload');
         Route::resource('surat-keterangan', Admin\SuratKeteranganController::class);
         Route::post('surat-keterangan/{suratKeterangan}/upload', [Admin\SuratKeteranganController::class, 'upload'])->name('surat-keterangan.upload');
-        Route::resource('dokumen', Admin\DokumenController::class);
+        Route::resource('dokumen', Admin\DokumenController::class)->parameters(['dokumen' => 'dokumen']);
         Route::resource('keuangan', Admin\KeuanganController::class);
         Route::resource('adept/sessions', Admin\AdeptSessionController::class)->names([
             'index' => 'adept.sessions.index',

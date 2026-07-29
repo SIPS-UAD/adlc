@@ -83,7 +83,7 @@ export default function SuratKeteranganIndex({ records, filters }: Props) {
                             <Button type="submit" size="sm" className="gap-1.5 font-semibold">
                                 <Search className="h-4 w-4" /> Cari
                             </Button>
-                            <Button type="button" variant="outline" size="sm" onClick={handleReset} className="gap-1.5 text-muted-foreground hover:text-foreground font-semibold">
+                            <Button type="button" variant="destructive" size="sm" onClick={handleReset} className="gap-1.5 font-semibold">
                                 <RotateCcw className="h-4 w-4" /> Reset
                             </Button>
                         </div>
