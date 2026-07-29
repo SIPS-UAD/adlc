@@ -73,7 +73,7 @@ export default function AdeptSessionDetail({ session, scores, stats }: Props) {
         setIsOpen(true);
     }
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SyntheticEvent) {
         e.preventDefault();
         const options = {
             onSuccess: () => {
@@ -273,3 +273,4 @@ export default function AdeptSessionDetail({ session, scores, stats }: Props) {
         </>
     );
 }
+

@@ -23,7 +23,7 @@ export default function UserForm({ record }: { record?: Record }) {
         student_id: record?.student_id ?? '',
     });
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SyntheticEvent) {
         e.preventDefault();
 
         if (isEdit) {
@@ -118,3 +118,4 @@ export default function UserForm({ record }: { record?: Record }) {
         </>
     );
 }
+

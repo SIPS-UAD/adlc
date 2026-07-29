@@ -18,7 +18,7 @@ export default function SuratKeteranganCreate({ applicants }: { applicants: Appl
         setData(prev => ({ ...prev, user_id: value, nama_peserta: found?.name ?? '', student_id: found?.student_id ?? '' }));
     }
 
-    function submit(e: React.FormEvent) { e.preventDefault(); post('/admin/surat-keterangan'); }
+    function submit(e: React.SyntheticEvent) { e.preventDefault(); post('/admin/surat-keterangan'); }
 
     return (
         <>
@@ -60,3 +60,4 @@ export default function SuratKeteranganCreate({ applicants }: { applicants: Appl
         </>
     );
 }
+

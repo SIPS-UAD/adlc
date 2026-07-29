@@ -27,7 +27,7 @@ export default function DokumenForm({ record }: { record?: Record }) {
         });
     }, [record?.id, record?.judul, record?.kategori, record?.visibility, setData]);
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SyntheticEvent) {
         e.preventDefault();
 
         if (isEdit) {

@@ -62,7 +62,7 @@ export default function ApplicantSuratIndex({ pengantars, keterangans }: Props) 
         setIsOpen(true);
     }
 
-    function submitRequest(e: React.FormEvent) {
+    function submitRequest(e: React.SyntheticEvent) {
         e.preventDefault();
         const url = tipeSurat === 'pengantar' ? '/portal/surat/pengantar' : '/portal/surat/keterangan';
         
@@ -364,3 +364,4 @@ export default function ApplicantSuratIndex({ pengantars, keterangans }: Props) 
         </>
     );
 }
+

@@ -13,7 +13,7 @@ export default function AdeptSessionForm({ session }: { session?: Session }) {
         tanggal_tes: session?.tanggal_tes ?? new Date().toISOString().slice(0, 10),
     });
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SyntheticEvent) {
         e.preventDefault();
         if (isEdit) patch(`/admin/adept/sessions/${session!.id}`);
         else post('/admin/adept/sessions');
@@ -43,3 +43,4 @@ export default function AdeptSessionForm({ session }: { session?: Session }) {
         </>
     );
 }
+

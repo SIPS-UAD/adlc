@@ -27,7 +27,7 @@ export default function SuratPengantarCreate({ applicants }: { applicants: Appli
         }
     }
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SyntheticEvent) {
         e.preventDefault();
         post('/admin/surat-pengantar');
     }
@@ -84,3 +84,4 @@ export default function SuratPengantarCreate({ applicants }: { applicants: Appli
         </>
     );
 }
+

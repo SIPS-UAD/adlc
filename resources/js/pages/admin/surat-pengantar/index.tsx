@@ -27,7 +27,7 @@ export default function SuratPengantarIndex({ records, filters }: Props) {
     const [search, setSearch] = useState(filters.search ?? '');
     const [status, setStatus] = useState(filters.status ?? 'all');
 
-    function applySearch(e: React.FormEvent) {
+    function applySearch(e: React.SyntheticEvent) {
         e.preventDefault();
         router.get('/admin/surat-pengantar', {
             search: search || undefined,
@@ -205,3 +205,4 @@ export default function SuratPengantarIndex({ records, filters }: Props) {
         </>
     );
 }
+

@@ -22,11 +22,11 @@ export default function SuratKeteranganEdit({ record, applicants }: { record: Re
     });
     const { data: uploadData, setData: setUploadData, post: postUpload, processing: uploading, errors: uploadErrors, setError: setUploadError, clearErrors: clearUploadErrors } = useForm({ file: null as File | null });
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SyntheticEvent) {
         e.preventDefault();
         patch(`/admin/surat-keterangan/${record.id}`);
     }
-    function submitUpload(e: React.FormEvent) {
+    function submitUpload(e: React.SyntheticEvent) {
         e.preventDefault();
         postUpload(`/admin/surat-keterangan/${record.id}/upload`, { forceFormData: true });
     }
@@ -123,3 +123,4 @@ export default function SuratKeteranganEdit({ record, applicants }: { record: Re
         </>
     );
 }
+

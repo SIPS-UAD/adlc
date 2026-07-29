@@ -19,7 +19,7 @@ export default function KeuanganForm({ record }: { record?: Record }) {
         tanggal: record?.tanggal ?? new Date().toISOString().slice(0, 10),
     });
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SyntheticEvent) {
         e.preventDefault();
         if (isEdit) patch(`/admin/keuangan/${record!.id}`);
         else post('/admin/keuangan');
@@ -69,3 +69,4 @@ export default function KeuanganForm({ record }: { record?: Record }) {
         </>
     );
 }
+

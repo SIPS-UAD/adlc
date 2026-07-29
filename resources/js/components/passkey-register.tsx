@@ -41,7 +41,7 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
         },
     });
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
 
         if (!name.trim()) {
@@ -106,3 +106,4 @@ export default function PasskeyRegistration({ onSuccess }: Props) {
         </form>
     );
 }
+

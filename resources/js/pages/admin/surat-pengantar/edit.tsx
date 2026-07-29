@@ -29,12 +29,12 @@ export default function SuratPengantarEdit({ record, applicants }: { record: Rec
     const fileRef = useRef<HTMLInputElement>(null);
     const { data: uploadData, setData: setUploadData, post: postUpload, processing: uploading, errors: uploadErrors, setError: setUploadError, clearErrors: clearUploadErrors } = useForm({ file: null as File | null });
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SyntheticEvent) {
         e.preventDefault();
         patch(`/admin/surat-pengantar/${record.id}`);
     }
 
-    function submitUpload(e: React.FormEvent) {
+    function submitUpload(e: React.SyntheticEvent) {
         e.preventDefault();
         postUpload(`/admin/surat-pengantar/${record.id}/upload`, { forceFormData: true });
     }
@@ -149,3 +149,4 @@ export default function SuratPengantarEdit({ record, applicants }: { record: Rec
         </>
     );
 }
+
