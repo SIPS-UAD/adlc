@@ -11,13 +11,13 @@ Route::middleware(['auth', 'verified', 'role:admin'])
     ->name('admin.')
     ->group(function () {
         Route::get('dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('surat-pengantar', Admin\SuratPengantarController::class);
+        Route::resource('surat-pengantar', Admin\SuratPengantarController::class)->parameters(['surat-pengantar' => 'suratPengantar']);
         Route::post('surat-pengantar/{suratPengantar}/upload', [Admin\SuratPengantarController::class, 'upload'])->name('surat-pengantar.upload');
-        Route::resource('surat-keterangan', Admin\SuratKeteranganController::class);
+        Route::resource('surat-keterangan', Admin\SuratKeteranganController::class)->parameters(['surat-keterangan' => 'suratKeterangan']);
         Route::post('surat-keterangan/{suratKeterangan}/upload', [Admin\SuratKeteranganController::class, 'upload'])->name('surat-keterangan.upload');
         Route::resource('dokumen', Admin\DokumenController::class)->parameters(['dokumen' => 'dokumen']);
         Route::resource('keuangan', Admin\KeuanganController::class);
-        Route::resource('adept/sessions', Admin\AdeptSessionController::class)->names([
+        Route::resource('adept/sessions', Admin\AdeptSessionController::class)->parameters(['sessions' => 'adeptSession'])->names([
             'index' => 'adept.sessions.index',
             'create' => 'adept.sessions.create',
             'store' => 'adept.sessions.store',
